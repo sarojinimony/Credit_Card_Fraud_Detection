@@ -6,7 +6,8 @@ from sklearn.metrics import accuracy_score
 import streamlit as st
 
 # Load and prepare the data
-data=pd.read_csv(r'creditcard.csv')
+data = pd.read_csv(r'creditcard.csv')
+st.write(data.head())
 
 legit = data[data.Class == 0]
 fraud = data[data.Class == 1]

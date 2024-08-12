@@ -1,13 +1,27 @@
-import numpy as np
+import os
+import requests
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 import streamlit as st
 
+# Download the CSV file from Kaggle if it doesn't exist
+csv_file = 'creditcard.csv'
+if not os.path.exists(csv_file):
+    kaggle_url = "https://https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud/data/creditcard.csv" 
+    response = requests.get(kaggle_url)
+    with open(csv_file, 'wb') as file:
+        file.write(response.content)
+
 # Load and prepare the data
-data = pd.read_csv(r'creditcard.csv')
+data = pd.read_csv(csv_file)
+
+# Display the first and last 5 rows of the dataset
+st.write("First 5 rows of the dataset:")
 st.write(data.head())
+st.write("Last 5 rows of the dataset:")
+st.write(data.tail())
 
 legit = data[data.Class == 0]
 fraud = data[data.Class == 1]
@@ -28,14 +42,14 @@ model.fit(X_train, y_train)
 train_acc = accuracy_score(model.predict(X_train), y_train)
 test_acc = accuracy_score(model.predict(X_test), y_test)
 
-print(f"Training accuracy: {train_acc}")
-print(f"Testing accuracy: {test_acc}")
+st.write(f"Training accuracy: {train_acc}")
+st.write(f"Testing accuracy: {test_acc}")
 
 # Streamlit app
 st.title("Credit Card Fraud Detection")
 
 # Input: Enter feature values
-input_features = st.text_input('Enter all required feature values ')
+input_features = st.text_input('Enter all required feature values (space-separated)')
 
 # Button to submit the input
 submit = st.button("Submit")

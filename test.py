@@ -6,7 +6,16 @@ from sklearn.metrics import accuracy_score
 import streamlit as st
 
 # Load and prepare the data
-data = pd.read_csv('creditcard.csv')
+uploaded_file = st.file_uploader("creditcard", type="csv")
+
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    legit = data[data.Class == 0]
+    fraud = data[data.Class == 1]
+    st.write("Legit transactions:", legit.head())
+    st.write("Fraud transactions:", fraud.head())
+else:
+    st.error("Please upload a CSV file to proceed.")
 
 legit = data[data.Class == 0]
 fraud = data[data.Class == 1]

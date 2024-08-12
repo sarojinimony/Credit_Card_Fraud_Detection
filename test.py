@@ -6,7 +6,10 @@ from sklearn.metrics import accuracy_score
 import streamlit as st
 
 # Load and prepare the data
-data = pd.read_csv(r'C:\Users\saroj\PycharmProjects\Credit_Card_Fraud_Detection\creditcard.csv')
+uploaded_file = st.file_uploader("creditcard.csv", type="csv")
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    st.write(data.head())
 
 legit = data[data.Class == 0]
 fraud = data[data.Class == 1]
@@ -42,7 +45,7 @@ submit = st.button("Submit")
 if submit:
     try:
         # Convert input to a list of floats
-        input_features_list = list(map(float, input_features.split(',')))
+        input_features_list = list(map(float, input_features.split()))
 
         # Check if the number of features matches
         if len(input_features_list) != X_train.shape[1]:

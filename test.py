@@ -9,7 +9,7 @@ import streamlit as st
 uploaded_file = st.file_uploader("creditcard", type="csv")
 
 if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file)
+    data = pd.read_csv(creditcard.csv)
     legit = data[data.Class == 0]
     fraud = data[data.Class == 1]
     st.write("Legit transactions:", legit.head())
